@@ -1,0 +1,45 @@
+spring:
+  main:
+    allow-circular-references: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: egormalov.2007@gmail.com
+    password: rcgp bktc fgwn nrfy
+    properties:
+      mail:
+        debug: false
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  security:
+    user:
+      name: user_microservice
+      password: password
+  application:
+    name: User-Service
+  cache:
+    type: redis
+    cache-names: redis-cache
+  data:
+    redis:
+      host: localhost
+      password: passwordForRedis
+      port: 6379
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/avanza_natural
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+server:
+  port: 9090
+
+jwt:
+  secret: 5367566B5970337336762342342342341139792F4123F452811482B4D6251655468576D5A71347437
