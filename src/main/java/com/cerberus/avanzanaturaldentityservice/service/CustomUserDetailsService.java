@@ -1,5 +1,6 @@
 package com.cerberus.avanzanaturaldentityservice.service;
 
+import com.cerberus.avanzanaturaldentityservice.exception.NotFoundException;
 import com.cerberus.avanzanaturaldentityservice.model.UserCredential;
 import com.cerberus.avanzanaturaldentityservice.repository.UserCredentialRepository;
 import com.cerberus.avanzanaturaldentityservice.security.CustomUserDetails;
@@ -19,7 +20,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserCredential> credential = repository.findByEmail(username);
-        return credential.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("user not found with name :" + username));
+        Optional<UserCredential> credential = this.repository.findByEmail(username);
+        return new CustomUserDetails(credential.orElseThrow(
+                () -> new NotFoundException("User not found")
+        ));
     }
 }

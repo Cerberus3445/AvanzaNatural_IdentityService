@@ -20,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class AuthConfig {
+public class SecurityConfig {
 
     private final UserCredentialRepository userCredentialRepository;
 
@@ -32,7 +32,9 @@ public class AuthConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/v1/auth/register", "/v1/auth/login", "/v1/auth/validate", "/v1/auth/refreshToken")
+                .authenticationProvider(authenticationProvider())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("api/v1/auth/register",
+                                "api/v1/auth/login", "api/v1/auth/validate", "api/v1/auth/refresh-token")
                         .permitAll())
                 .build();
     }
@@ -50,8 +52,4 @@ public class AuthConfig {
         return authenticationProvider;
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
 }

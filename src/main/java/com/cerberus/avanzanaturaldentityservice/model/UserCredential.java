@@ -13,23 +13,19 @@ import lombok.NoArgsConstructor;
 public class UserCredential {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "firstName")
     private String firstName;
 
-    @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
+    private Boolean emailConfirmed;
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
