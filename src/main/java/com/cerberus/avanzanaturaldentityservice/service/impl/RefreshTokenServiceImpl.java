@@ -7,14 +7,15 @@ import com.cerberus.avanzanaturaldentityservice.repository.RefreshTokenRepositor
 import com.cerberus.avanzanaturaldentityservice.repository.UserCredentialRepository;
 import com.cerberus.avanzanaturaldentityservice.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class RefreshTokenServiceImpl implements RefreshTokenService {
 
@@ -36,7 +37,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Override
     public Optional<RefreshToken> findByToken(String token) {
-        return this.refreshTokenRepository.findByToken(token);
+        return this.refreshTokenRepository.findFirstByToken(token);
     }
 
     @Override
@@ -44,8 +45,14 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             this.refreshTokenRepository.delete(token);
             throw new ValidationException(token.getToken() +
-                    "Refresh token was expired. Please make a new signin request");
+                    "Refresh refreshToken was expired. Please make a new signin request");
         }
         return token;
     }
+
+    @Override
+    public void delete(String token) {
+        this.refreshTokenRepository.deleteByToken(token);
+    }
+
 }

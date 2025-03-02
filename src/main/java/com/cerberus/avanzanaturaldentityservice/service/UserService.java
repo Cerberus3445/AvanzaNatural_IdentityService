@@ -7,5 +7,5 @@ public interface UserService {
 
     void save(UserDto userDto);
 
-    UserCredential findByEmail(String email);
+    UserCredential getByEmail(String email);
 }
