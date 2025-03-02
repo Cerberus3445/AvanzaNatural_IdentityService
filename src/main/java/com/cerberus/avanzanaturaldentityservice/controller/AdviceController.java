@@ -1,5 +1,6 @@
 package com.cerberus.avanzanaturaldentityservice.controller;
 
+import com.cerberus.avanzanaturaldentityservice.exception.AlreadyExistsException;
 import com.cerberus.avanzanaturaldentityservice.exception.AuthorizationException;
 import com.cerberus.avanzanaturaldentityservice.exception.NotFoundException;
 import com.cerberus.avanzanaturaldentityservice.exception.ValidationException;
@@ -35,6 +36,14 @@ public class AdviceController {
                 HttpStatus.UNAUTHORIZED, exception.getMessage()
         );
         problemDetail.setTitle("Authorization exception");
+        problemDetail.setDetail("Incorrect password or email address");
+        return problemDetail;
+    }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ProblemDetail problemDetail(AlreadyExistsException exception){
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+        problemDetail.setTitle("Already exists");
         return problemDetail;
     }
 }
