@@ -2,6 +2,8 @@ package com.cerberus.avanzanaturaldentityservice.service;
 
 
 import com.cerberus.avanzanaturaldentityservice.dto.UserDto;
+import com.cerberus.avanzanaturaldentityservice.model.UserCredential;
+import com.cerberus.avanzanaturaldentityservice.security.AuthRequest;
 import com.cerberus.avanzanaturaldentityservice.security.RefreshTokenRequest;
 
 public interface AuthService {
@@ -10,7 +12,7 @@ public interface AuthService {
 
     String generateToken(String email);
 
-    void validateToken(String token);
-
     void logout(RefreshTokenRequest refreshToken);
+
+    UserCredential login(AuthRequest authRequest);
 }

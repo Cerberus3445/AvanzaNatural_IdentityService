@@ -14,7 +14,7 @@ public class CreateValidator {
     private final UserService userService;
 
     public void validate(UserDto userDto){
-        if(this.userService.getByEmail(userDto.getEmail()) != null){
+        if(this.userService.getByEmail(userDto.getEmail()).isPresent()){
             throw new AlreadyExistsException("User with this email already exists");
         }
     }
