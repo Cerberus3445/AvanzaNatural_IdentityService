@@ -1,7 +1,10 @@
 package com.cerberus.avanzanaturaldentityservice.service.impl;
 
 import com.cerberus.avanzanaturaldentityservice.dto.UserDto;
+import com.cerberus.avanzanaturaldentityservice.exception.NotFoundException;
+import com.cerberus.avanzanaturaldentityservice.exception.ValidationException;
 import com.cerberus.avanzanaturaldentityservice.model.UserCredential;
+import com.cerberus.avanzanaturaldentityservice.security.AuthRequest;
 import com.cerberus.avanzanaturaldentityservice.security.RefreshTokenRequest;
 import com.cerberus.avanzanaturaldentityservice.service.AuthService;
 import com.cerberus.avanzanaturaldentityservice.service.JwtService;
@@ -10,10 +13,9 @@ import com.cerberus.avanzanaturaldentityservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
@@ -34,17 +36,25 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String generateToken(String email) {
-        UserCredential userCredential = this.userService.getByEmail(email);
+        UserCredential userCredential = this.userService.getByEmail(email).get();
         return this.jwtService.generateToken(userCredential);
-    }
-
-    @Override
-    public void validateToken(String token) {
-        this.jwtService.validateToken(token);
     }
 
     @Override
     public void logout(RefreshTokenRequest refreshToken) {
         this.refreshTokenService.delete(refreshToken.getRefreshToken());
+    }
+
+    @Override
+    public UserCredential login(AuthRequest authRequest) {
+        UserCredential userCredential = this.userService.getByEmail(authRequest.getEmail()).orElseThrow(
+                () -> new NotFoundException("User with this email not found")
+        );
+
+        if(this.passwordEncoder.matches(authRequest.getPassword(), userCredential.getPassword())){
+            return userCredential;
+        } else{
+            throw new ValidationException("The password is incorrect");
+        }
     }
 }
