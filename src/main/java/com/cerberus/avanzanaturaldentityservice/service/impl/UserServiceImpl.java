@@ -1,7 +1,7 @@
 package com.cerberus.avanzanaturaldentityservice.service.impl;
 
 import com.cerberus.avanzanaturaldentityservice.dto.UserDto;
-import com.cerberus.avanzanaturaldentityservice.mapper.EntityDtoMapper;
+import com.cerberus.avanzanaturaldentityservice.mapper.UserMapper;
 import com.cerberus.avanzanaturaldentityservice.model.UserCredential;
 import com.cerberus.avanzanaturaldentityservice.repository.UserCredentialRepository;
 import com.cerberus.avanzanaturaldentityservice.service.UserService;
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserCredentialRepository userCredentialRepository;
 
-    private final EntityDtoMapper mapper;
+    private final UserMapper mapper;
 
     @Override
     public void save(UserDto userDto) {

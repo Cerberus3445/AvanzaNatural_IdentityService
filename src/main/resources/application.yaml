@@ -17,3 +17,9 @@ web:
     uri: http://localhost:3000
 jwt:
   secret: 5367566B5970337336762342342342341139792F4123F452811482B4D6251655468576D5A71347437
+
+resilience4j.ratelimiter:
+    instances:
+      authLimiter:
+        limit-for-period: 30
+        limit-refresh-period: 1s
