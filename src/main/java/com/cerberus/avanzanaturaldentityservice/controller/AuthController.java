@@ -12,6 +12,7 @@ import com.cerberus.avanzanaturaldentityservice.service.AuthService;
 import com.cerberus.avanzanaturaldentityservice.service.JwtService;
 import com.cerberus.avanzanaturaldentityservice.service.RefreshTokenService;
 import com.cerberus.avanzanaturaldentityservice.validator.CreateValidator;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -28,6 +29,7 @@ import java.util.List;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Tag(name = "Auth Controller", description = "Registration, login ang getting refresh refreshToken")
+@RateLimiter(name = "authLimiter")
 public class AuthController {
 
     private final AuthService authService;
