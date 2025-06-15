@@ -26,6 +26,10 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     private final UserService userService;
 
+    /**
+     * Creates a new refresh token for a user identified by their email. If the user
+     * has more than 6 active sessions, throws a validation exception.
+     */
     @Override
     public RefreshToken createRefreshToken(String email) {
         log.info("createRefreshToken {}", email);

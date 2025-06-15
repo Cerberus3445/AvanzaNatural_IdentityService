@@ -30,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String createUser(UserDto userDto) {
         userDto.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
-        this.userService.save(userDto);
+        this.userService.create(userDto);
         return "user added to the system";
     }
 

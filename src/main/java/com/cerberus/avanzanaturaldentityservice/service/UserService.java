@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    void save(UserDto userDto);
+    void create(UserDto userDto);
 
     Optional<UserCredential> getByEmail(String email);
 }

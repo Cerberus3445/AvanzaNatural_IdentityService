@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
 
     @Override
-    public void save(UserDto userDto) {
+    public void create(UserDto userDto) {
         log.info("createUser {}", userDto.getEmail());
         this.userCredentialRepository.save(this.mapper.toEntity(userDto));
     }
